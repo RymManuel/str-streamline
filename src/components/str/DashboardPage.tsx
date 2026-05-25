@@ -14,7 +14,14 @@ import {
   formatCurrency, formatNumber,
 } from '@/lib/analytics';
 
-const PIE_COLORS = ['#a855f7', '#8b5cf6', '#d946ef', '#c084fc', '#7c3aed', '#e879f9'];
+const PIE_COLORS = ['#6366f1', '#38bdf8', '#34d399', '#a78bfa', '#fb923c', '#f472b6'];
+const CHART_TOOLTIP = {
+  backgroundColor: '#fff',
+  border: '1px solid #e0e7ff',
+  borderRadius: '10px',
+  color: '#1e293b',
+  boxShadow: '0 8px 20px rgba(99, 102, 241, 0.1)',
+};
 
 export const DashboardPage: React.FC = () => {
   const { session, isAdmin } = useAuth();
@@ -55,7 +62,7 @@ export const DashboardPage: React.FC = () => {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-20">
-        <Loader2 className="h-8 w-8 text-purple-500 animate-spin" />
+        <Loader2 className="h-8 w-8 text-primary animate-spin" />
       </div>
     );
   }
@@ -65,10 +72,10 @@ export const DashboardPage: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
         <div>
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
-            Welcome back, {session?.name?.split(' ')[0]}
+          <h1 className="text-2xl md:text-3xl font-semibold tracking-tight">
+            Welcome back, <span className="str-accent-title">{session?.name?.split(' ')[0]}</span>
           </h1>
-          <p className="text-gray-500 dark:text-purple-300 text-sm mt-1">
+          <p className="text-muted-foreground text-sm mt-1">
             Here&apos;s your short-term rental performance overview
           </p>
         </div>
@@ -117,43 +124,43 @@ export const DashboardPage: React.FC = () => {
 
       {/* Main chart - Revenue trend */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 bg-white dark:bg-gradient-to-br dark:from-[#231340] dark:to-[#1a0b2e] rounded-2xl p-6 border border-purple-100 dark:border-purple-800/40 shadow-sm">
+        <div className="lg:col-span-2 str-glass-card p-6">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h3 className="font-semibold text-gray-900 dark:text-white">Revenue & Profit Trend</h3>
-              <p className="text-xs text-gray-500 dark:text-purple-400">Monthly performance over selected period</p>
+              <h3 className="font-semibold">Revenue & Profit Trend</h3>
+              <p className="text-xs text-muted-foreground">Monthly performance over selected period</p>
             </div>
           </div>
           <ResponsiveContainer width="100%" height={280}>
             <AreaChart data={monthly}>
               <defs>
                 <linearGradient id="revGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#a855f7" stopOpacity={0.5} />
-                  <stop offset="95%" stopColor="#a855f7" stopOpacity={0} />
+                  <stop offset="5%" stopColor="#6366f1" stopOpacity={0.35} />
+                  <stop offset="95%" stopColor="#6366f1" stopOpacity={0} />
                 </linearGradient>
                 <linearGradient id="profGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#10b981" stopOpacity={0.5} />
-                  <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
+                  <stop offset="5%" stopColor="#34d399" stopOpacity={0.35} />
+                  <stop offset="95%" stopColor="#34d399" stopOpacity={0} />
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="#6b46c133" />
+              <CartesianGrid strokeDasharray="3 3" stroke="hsl(220 18% 88%)" />
               <XAxis dataKey="date" tick={{ fontSize: 11, fill: '#9ca3af' }} />
               <YAxis tick={{ fontSize: 11, fill: '#9ca3af' }} />
               <Tooltip
-                contentStyle={{ backgroundColor: '#1a0b2e', border: '1px solid #6b46c1', borderRadius: '8px', color: '#fff' }}
+                contentStyle={CHART_TOOLTIP}
                 formatter={(v: number) => formatCurrency(v)}
               />
               <Legend wrapperStyle={{ fontSize: '12px' }} />
-              <Area type="monotone" dataKey="revenue" stroke="#a855f7" fill="url(#revGrad)" strokeWidth={2} />
-              <Area type="monotone" dataKey="profit" stroke="#10b981" fill="url(#profGrad)" strokeWidth={2} />
+              <Area type="monotone" dataKey="revenue" stroke="#6366f1" fill="url(#revGrad)" strokeWidth={2} />
+              <Area type="monotone" dataKey="profit" stroke="#34d399" fill="url(#profGrad)" strokeWidth={2} />
             </AreaChart>
           </ResponsiveContainer>
         </div>
 
         {/* Sources pie */}
-        <div className="bg-white dark:bg-gradient-to-br dark:from-[#231340] dark:to-[#1a0b2e] rounded-2xl p-6 border border-purple-100 dark:border-purple-800/40 shadow-sm">
-          <h3 className="font-semibold text-gray-900 dark:text-white mb-1">Booking Sources</h3>
-          <p className="text-xs text-gray-500 dark:text-purple-400 mb-4">Revenue distribution</p>
+        <div className="str-glass-card p-6">
+          <h3 className="font-semibold mb-1">Booking Sources</h3>
+          <p className="text-xs text-muted-foreground mb-4">Revenue distribution</p>
           {sources.length > 0 ? (
             <>
               <ResponsiveContainer width="100%" height={200}>
@@ -162,7 +169,7 @@ export const DashboardPage: React.FC = () => {
                     {sources.map((_, i) => <Cell key={i} fill={PIE_COLORS[i % PIE_COLORS.length]} />)}
                   </Pie>
                   <Tooltip
-                    contentStyle={{ backgroundColor: '#1a0b2e', border: '1px solid #6b46c1', borderRadius: '8px', color: '#fff' }}
+                    contentStyle={CHART_TOOLTIP}
                     formatter={(v: number) => formatCurrency(v)}
                   />
                 </PieChart>
@@ -187,21 +194,21 @@ export const DashboardPage: React.FC = () => {
 
       {/* Bookings + occupancy chart row */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white dark:bg-gradient-to-br dark:from-[#231340] dark:to-[#1a0b2e] rounded-2xl p-6 border border-purple-100 dark:border-purple-800/40 shadow-sm">
+        <div className="str-glass-card p-6">
           <h3 className="font-semibold text-gray-900 dark:text-white mb-1">Bookings per Month</h3>
           <p className="text-xs text-gray-500 dark:text-purple-400 mb-4">Volume trends</p>
           <ResponsiveContainer width="100%" height={260}>
             <BarChart data={monthly}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#6b46c133" />
+              <CartesianGrid strokeDasharray="3 3" stroke="hsl(220 18% 88%)" />
               <XAxis dataKey="date" tick={{ fontSize: 11, fill: '#9ca3af' }} />
               <YAxis tick={{ fontSize: 11, fill: '#9ca3af' }} />
-              <Tooltip contentStyle={{ backgroundColor: '#1a0b2e', border: '1px solid #6b46c1', borderRadius: '8px', color: '#fff' }} />
-              <Bar dataKey="bookings" fill="#a855f7" radius={[8, 8, 0, 0]} />
+              <Tooltip contentStyle={CHART_TOOLTIP} />
+              <Bar dataKey="bookings" fill="#38bdf8" radius={[6, 6, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
 
-        <div className="bg-white dark:bg-gradient-to-br dark:from-[#231340] dark:to-[#1a0b2e] rounded-2xl p-6 border border-purple-100 dark:border-purple-800/40 shadow-sm">
+        <div className="str-glass-card p-6">
           <h3 className="font-semibold text-gray-900 dark:text-white mb-1">Occupancy Rate</h3>
           <p className="text-xs text-gray-500 dark:text-purple-400 mb-4">Average % occupied</p>
           <ResponsiveContainer width="100%" height={260}>
@@ -209,15 +216,15 @@ export const DashboardPage: React.FC = () => {
               <CartesianGrid strokeDasharray="3 3" stroke="#6b46c133" />
               <XAxis dataKey="date" tick={{ fontSize: 11, fill: '#9ca3af' }} />
               <YAxis tick={{ fontSize: 11, fill: '#9ca3af' }} domain={[0, 100]} />
-              <Tooltip contentStyle={{ backgroundColor: '#1a0b2e', border: '1px solid #6b46c1', borderRadius: '8px', color: '#fff' }} formatter={(v: number) => `${v}%`} />
-              <Line type="monotone" dataKey="occupancy" stroke="#d946ef" strokeWidth={3} dot={{ fill: '#d946ef', r: 4 }} />
+              <Tooltip contentStyle={CHART_TOOLTIP} formatter={(v: number) => `${v}%`} />
+              <Line type="monotone" dataKey="occupancy" stroke="#a78bfa" strokeWidth={2} dot={{ fill: '#a78bfa', r: 3 }} />
             </LineChart>
           </ResponsiveContainer>
         </div>
       </div>
 
       {/* Top properties table */}
-      <div className="bg-white dark:bg-gradient-to-br dark:from-[#231340] dark:to-[#1a0b2e] rounded-2xl p-6 border border-purple-100 dark:border-purple-800/40 shadow-sm">
+      <div className="str-glass-card p-6">
         <h3 className="font-semibold text-gray-900 dark:text-white mb-4">Top Performing Properties</h3>
         {properties.length > 0 ? (
           <div className="overflow-x-auto">
@@ -237,14 +244,14 @@ export const DashboardPage: React.FC = () => {
                   return (
                     <tr key={p.name} className="hover:bg-purple-50/50 dark:hover:bg-purple-900/20">
                       <td className="py-3 pr-4 font-medium text-gray-900 dark:text-white">
-                        <span className="inline-block w-6 text-purple-500">#{i + 1}</span>
+                        <span className="inline-block w-6 text-primary/80">#{i + 1}</span>
                         {p.name}
                       </td>
                       <td className="py-3 pr-4 text-right text-gray-700 dark:text-purple-200">{p.count}</td>
                       <td className="py-3 pr-4 text-right font-semibold text-gray-900 dark:text-white">{formatCurrency(p.value)}</td>
                       <td className="py-3 pr-4 min-w-[120px]">
-                        <div className="w-full h-2 bg-purple-100 dark:bg-purple-900/40 rounded-full overflow-hidden">
-                          <div className="h-full bg-gradient-to-r from-purple-500 to-fuchsia-500" style={{ width: `${pct}%` }} />
+                        <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
+                          <div className="h-full str-progress-bar" style={{ width: `${pct}%` }} />
                         </div>
                       </td>
                     </tr>

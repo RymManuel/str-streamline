@@ -27,39 +27,43 @@ export const TopBar: React.FC<Props> = ({ onMenuClick }) => {
   }, [session]);
 
   return (
-    <header className="sticky top-0 z-20 bg-white/80 dark:bg-[#1a0b2e]/80 backdrop-blur-lg border-b border-purple-100 dark:border-purple-900/40">
+    <header className="str-topbar">
       <div className="flex items-center justify-between px-4 md:px-6 py-3">
         <div className="flex items-center gap-3">
           <button
             onClick={onMenuClick}
-            className="lg:hidden p-2 rounded-lg text-purple-700 dark:text-purple-200 hover:bg-purple-50 dark:hover:bg-purple-900/40"
+            className="lg:hidden p-2 rounded-xl text-foreground/80 hover:bg-muted transition-colors"
             aria-label="Open menu"
           >
             <Menu className="h-5 w-5" />
           </button>
           <div className="hidden md:block">
-            <p className="text-xs text-gray-500 dark:text-purple-400">
+            <p className="text-xs text-muted-foreground font-medium">
               {new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
             </p>
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
-          <div className={`hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs ${apiOnline ? 'bg-emerald-50 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300' : 'bg-red-50 dark:bg-red-500/20 text-red-700 dark:text-red-300'}`}>
+        <div className="flex items-center gap-2 md:gap-3">
+          <div className={`hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium border ${
+            apiOnline
+              ? 'bg-emerald-500/10 border-emerald-500/25 text-emerald-600 dark:text-emerald-300'
+              : 'bg-red-500/10 border-red-500/25 text-red-600 dark:text-red-300'
+          }`}>
             <Database className="h-3 w-3" />
             MySQL {apiOnline ? 'Connected' : 'Offline'}
           </div>
-          <div className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-purple-50 dark:bg-purple-900/40 text-xs text-purple-700 dark:text-purple-200">
+          <div className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-primary/10 border border-primary/15 text-primary">
             <Clock className="h-3 w-3" />
             Session: {timeLeft}
           </div>
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-violet-600 flex items-center justify-center text-white text-sm font-bold">
+          <div className="flex items-center gap-2 pl-2 border-l border-border/60">
+            <div className="w-9 h-9 str-avatar shadow-sm">
               {session?.name?.charAt(0).toUpperCase()}
             </div>
             <div className="hidden sm:block">
-              <div className="text-sm font-medium text-gray-900 dark:text-white leading-tight">{session?.name}</div>
-              <div className="text-xs text-gray-500 dark:text-purple-400 capitalize">{session?.role}</div>
+              <div className="text-sm font-semibold leading-tight">{session?.name}</div>
+              <div className="text-xs text-muted-foreground capitalize">{session?.role}</div>
             </div>
           </div>
         </div>

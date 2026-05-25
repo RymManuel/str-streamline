@@ -5,6 +5,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { Loader2 } from 'lucide-react';
 import { sanitizeInput } from '@/lib/secureHash';
 import { cn } from '@/lib/utils';
+import { formatActivityTimestamp, isLocalToday } from '@/lib/datetime';
 
 const ACTION_META: Record<string, { color: string; icon: React.ReactNode }> = {
   LOGIN: { color: 'emerald', icon: <LogIn className="h-4 w-4" /> },
@@ -47,7 +48,13 @@ export const LogsPage: React.FC = () => {
 
   const exportLogs = () => {
     const headers = ['Timestamp', 'User', 'Action', 'Details', 'IP Address'];
-    const rows = filtered.map(l => [l.timestamp, l.userName, l.action, l.details || '', l.ipAddress]);
+    const rows = filtered.map(l => [
+      formatActivityTimestamp(l.timestamp),
+      l.userName,
+      l.action,
+      l.details || '',
+      l.ipAddress,
+    ]);
     const csv = [headers, ...rows].map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(',')).join('\n');
     const blob = new Blob([csv], { type: 'text/csv' });
     const url = URL.createObjectURL(blob);
@@ -97,11 +104,11 @@ export const LogsPage: React.FC = () => {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {[
           { label: 'Total Events', value: logs.length, color: 'purple' },
-          { label: 'Logins Today', value: logs.filter(l => l.action === 'LOGIN' && new Date(l.timestamp).toDateString() === new Date().toDateString()).length, color: 'emerald' },
+          { label: 'Logins Today', value: logs.filter(l => l.action === 'LOGIN' && isLocalToday(l.timestamp)).length, color: 'emerald' },
           { label: 'CSV Uploads', value: logs.filter(l => l.action === 'CSV_UPLOAD').length, color: 'violet' },
           { label: 'User Changes', value: logs.filter(l => ['USER_CREATE', 'USER_UPDATE', 'USER_DELETE'].includes(l.action)).length, color: 'fuchsia' },
         ].map((s, i) => (
-          <div key={i} className="bg-white dark:bg-gradient-to-br dark:from-[#231340] dark:to-[#1a0b2e] rounded-xl p-4 border border-purple-100 dark:border-purple-800/40">
+          <div key={i} className="str-glass-card p-4">
             <div className="text-xs text-gray-500 dark:text-purple-300 mb-1">{s.label}</div>
             <div className="text-2xl font-bold text-gray-900 dark:text-white">{s.value}</div>
           </div>
@@ -134,7 +141,7 @@ export const LogsPage: React.FC = () => {
       </div>
 
       {/* Logs list */}
-      <div className="bg-white dark:bg-gradient-to-br dark:from-[#231340] dark:to-[#1a0b2e] rounded-2xl border border-purple-100 dark:border-purple-800/40 shadow-sm overflow-hidden">
+      <div className="str-glass-card overflow-hidden">
         {filtered.length === 0 ? (
           <div className="p-10 text-center">
             <ClipboardList className="h-10 w-10 text-purple-300 mx-auto mb-2" />
@@ -160,7 +167,7 @@ export const LogsPage: React.FC = () => {
                       <p className="text-sm text-gray-600 dark:text-purple-200">{log.details}</p>
                     )}
                     <div className="flex flex-wrap gap-3 mt-1 text-xs text-gray-400 dark:text-purple-400">
-                      <span>{new Date(log.timestamp).toLocaleString()}</span>
+                      <span title={log.timestamp}>{formatActivityTimestamp(log.timestamp)}</span>
                       <span>IP: {log.ipAddress}</span>
                     </div>
                   </div>

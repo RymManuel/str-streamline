@@ -82,6 +82,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return () => clearInterval(interval);
   }, []);
 
+  // After logout, block bfcache/back-button from showing a stale dashboard snapshot
+  useEffect(() => {
+    const onPageShow = (event: PageTransitionEvent) => {
+      if (!getToken()) {
+        sessionStore.clear();
+        setSession(null);
+      } else if (event.persisted) {
+        restoreSession();
+      }
+    };
+    window.addEventListener('pageshow', onPageShow);
+    return () => window.removeEventListener('pageshow', onPageShow);
+  }, [restoreSession]);
+
   const logActivity = useCallback((action: string, details?: string) => {
     api.recordLog(action, details).catch(() => {});
   }, []);
@@ -137,6 +151,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setToken(null);
     sessionStore.clear();
     setSession(null);
+    window.history.replaceState(null, '', window.location.pathname || '/');
   };
 
   const isAdmin = () => session?.role === 'admin';

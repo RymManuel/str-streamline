@@ -131,7 +131,7 @@ export const UploadPage: React.FC = () => {
           'relative border-2 border-dashed rounded-2xl p-10 text-center cursor-pointer transition-all',
           dragOver
             ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/30'
-            : 'border-purple-200 dark:border-purple-700/40 hover:border-purple-400 dark:hover:border-purple-500 bg-white dark:bg-gradient-to-br dark:from-[#231340] dark:to-[#1a0b2e]'
+            : 'border-cyan-500/25 hover:border-cyan-400/50 str-glass-card'
         )}
       >
         <input
@@ -202,7 +202,7 @@ export const UploadPage: React.FC = () => {
         </div>
       )}
 
-      <div className="bg-white dark:bg-gradient-to-br dark:from-[#231340] dark:to-[#1a0b2e] rounded-2xl p-6 border border-purple-100 dark:border-purple-800/40 shadow-sm">
+      <div className="str-glass-card p-6">
         <h3 className="font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
           <FileSpreadsheet className="h-5 w-5 text-purple-500" />
           Uploaded Files ({visibleFiles.length})

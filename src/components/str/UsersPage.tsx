@@ -130,7 +130,7 @@ export const UsersPage: React.FC = () => {
         />
       </div>
 
-      <div className="bg-white dark:bg-gradient-to-br dark:from-[#231340] dark:to-[#1a0b2e] rounded-2xl border border-purple-100 dark:border-purple-800/40 shadow-sm overflow-hidden">
+      <div className="str-glass-card overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead className="text-left text-xs uppercase text-gray-500 dark:text-purple-400 bg-purple-50/50 dark:bg-purple-900/20">
@@ -167,7 +167,7 @@ export const UsersPage: React.FC = () => {
 
       {modal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60" onClick={() => setModal(null)}>
-          <div className="bg-white dark:bg-[#231340] rounded-2xl w-full max-w-md p-5" onClick={e => e.stopPropagation()}>
+          <div className="str-glass-card w-full max-w-md p-5" onClick={e => e.stopPropagation()}>
             <div className="flex justify-between mb-4">
               <h3 className="font-semibold text-gray-900 dark:text-white">{modal.mode === 'create' ? 'Create User' : 'Edit User'}</h3>
               <button onClick={() => setModal(null)}><X className="h-5 w-5" /></button>
@@ -196,7 +196,7 @@ export const UsersPage: React.FC = () => {
 
       {confirmDelete && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60" onClick={() => setConfirmDelete(null)}>
-          <div className="bg-white dark:bg-[#231340] rounded-2xl p-6 max-w-sm" onClick={e => e.stopPropagation()}>
+          <div className="str-glass-card p-6 max-w-sm" onClick={e => e.stopPropagation()}>
             <p className="mb-4 dark:text-white">Delete <strong>{confirmDelete.name}</strong>?</p>
             <div className="flex gap-2">
               <button onClick={() => handleDelete(confirmDelete)} className="flex-1 py-2 bg-red-600 text-white rounded-lg">Delete</button>

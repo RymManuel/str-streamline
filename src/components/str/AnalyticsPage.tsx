@@ -80,7 +80,7 @@ export const AnalyticsPage: React.FC = () => {
 
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white dark:bg-gradient-to-br dark:from-[#231340] dark:to-[#1a0b2e] rounded-2xl p-6 border border-purple-100 dark:border-purple-800/40 shadow-sm">
+        <div className="str-glass-card p-6">
           <h3 className="font-semibold text-gray-900 dark:text-white mb-1">Revenue vs Expenses</h3>
           <p className="text-xs text-gray-500 dark:text-purple-400 mb-4">Monthly comparison</p>
           <ResponsiveContainer width="100%" height={300}>
@@ -99,7 +99,7 @@ export const AnalyticsPage: React.FC = () => {
           </ResponsiveContainer>
         </div>
 
-        <div className="bg-white dark:bg-gradient-to-br dark:from-[#231340] dark:to-[#1a0b2e] rounded-2xl p-6 border border-purple-100 dark:border-purple-800/40 shadow-sm">
+        <div className="str-glass-card p-6">
           <h3 className="font-semibold text-gray-900 dark:text-white mb-1">Profit Trend</h3>
           <p className="text-xs text-gray-500 dark:text-purple-400 mb-4">Net profit over time</p>
           <ResponsiveContainer width="100%" height={300}>
@@ -124,7 +124,7 @@ export const AnalyticsPage: React.FC = () => {
       </div>
 
       {/* Data table */}
-      <div className="bg-white dark:bg-gradient-to-br dark:from-[#231340] dark:to-[#1a0b2e] rounded-2xl border border-purple-100 dark:border-purple-800/40 shadow-sm overflow-hidden">
+      <div className="str-glass-card overflow-hidden">
         <div className="p-6 border-b border-purple-100 dark:border-purple-800/40 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
           <div>
             <h3 className="font-semibold text-gray-900 dark:text-white">Detailed Records</h3>

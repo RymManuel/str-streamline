@@ -4,10 +4,17 @@ import { query } from '../db.js';
 import { authRequired, adminRequired, getClientIp } from '../middleware/auth.js';
 import { recordActivity } from '../utils/activity.js';
 import { sanitizeInput } from '../utils/sanitize.js';
+import { toUtcIso } from '../utils/datetime.js';
 
 const router = Router();
 
 function mapLog(row) {
+  // UNIX_TIMESTAMP = UTC epoch seconds — avoids timezone string ambiguity from MySQL/driver
+  const timestamp =
+    row.created_ts != null && !Number.isNaN(Number(row.created_ts))
+      ? new Date(Number(row.created_ts) * 1000).toISOString()
+      : toUtcIso(row.created_at);
+
   return {
     id: row.id,
     userId: row.user_id,
@@ -15,7 +22,7 @@ function mapLog(row) {
     action: row.action,
     details: row.details,
     ipAddress: row.ip_address,
-    timestamp: row.created_at instanceof Date ? row.created_at.toISOString() : String(row.created_at),
+    timestamp,
   };
 }
 
@@ -37,7 +44,11 @@ router.post('/', authRequired, async (req, res) => {
 
 router.get('/', authRequired, adminRequired, async (_req, res) => {
   const rows = await query(
-    'SELECT * FROM activity_logs ORDER BY created_at DESC LIMIT 1000'
+    `SELECT id, user_id, user_name, action, details, ip_address, created_at,
+            UNIX_TIMESTAMP(created_at) AS created_ts
+     FROM activity_logs
+     ORDER BY created_at DESC
+     LIMIT 1000`
   );
   res.json({ logs: rows.map(mapLog) });
 });

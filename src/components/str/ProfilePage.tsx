@@ -61,7 +61,7 @@ export const ProfilePage: React.FC = () => {
       )}
       {err && <p className="text-sm text-red-600 dark:text-red-300">{err}</p>}
 
-      <form onSubmit={saveProfile} className="p-6 rounded-2xl bg-white dark:bg-purple-900/20 border border-purple-100 dark:border-purple-800/40 space-y-4">
+      <form onSubmit={saveProfile} className="str-glass-card p-6 space-y-4">
         <h2 className="font-semibold dark:text-white flex items-center gap-2"><User className="h-5 w-5 text-purple-500" /> Display Name</h2>
         <input
           value={name}
@@ -76,7 +76,7 @@ export const ProfilePage: React.FC = () => {
         </button>
       </form>
 
-      <form onSubmit={savePassword} className="p-6 rounded-2xl bg-white dark:bg-purple-900/20 border border-purple-100 dark:border-purple-800/40 space-y-4">
+      <form onSubmit={savePassword} className="str-glass-card p-6 space-y-4">
         <h2 className="font-semibold dark:text-white flex items-center gap-2"><Lock className="h-5 w-5 text-purple-500" /> Change Password</h2>
         <input
           type="password"

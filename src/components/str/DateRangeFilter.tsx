@@ -32,30 +32,31 @@ export const DateRangeFilter: React.FC<Props> = ({ value, onChange, className })
 
   return (
     <div className={`flex flex-wrap items-center gap-2 ${className || ''}`}>
-      <div className="flex items-center gap-2 bg-purple-50 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-800/50 rounded-lg px-3 py-2">
-        <Calendar className="h-4 w-4 text-purple-600 dark:text-purple-400" />
+      <div className="str-date-shell">
+        <Calendar className="h-4 w-4 text-primary" />
         <input
           type="date"
           value={value.start}
           max={value.end}
           onChange={(e) => onChange({ ...value, start: e.target.value })}
-          className="bg-transparent text-sm text-gray-800 dark:text-purple-100 focus:outline-none"
+          className="bg-transparent text-sm focus:outline-none"
         />
-        <span className="text-purple-400 text-sm">→</span>
+        <span className="text-muted-foreground text-sm">→</span>
         <input
           type="date"
           value={value.end}
           min={value.start}
           onChange={(e) => onChange({ ...value, end: e.target.value })}
-          className="bg-transparent text-sm text-gray-800 dark:text-purple-100 focus:outline-none"
+          className="bg-transparent text-sm focus:outline-none"
         />
       </div>
       <div className="flex gap-1">
         {PRESETS.map(p => (
           <button
             key={p.label}
+            type="button"
             onClick={() => applyPreset(p.days)}
-            className="px-3 py-2 text-xs font-medium rounded-lg bg-white dark:bg-purple-950/40 border border-purple-200 dark:border-purple-800/50 text-purple-700 dark:text-purple-200 hover:bg-purple-100 dark:hover:bg-purple-900/60 transition-all"
+            className="str-filter-chip"
           >
             {p.label}
           </button>

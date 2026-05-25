@@ -76,14 +76,14 @@ export const PropertiesPage: React.FC = () => {
       {error && <p className="text-sm text-red-600 dark:text-red-300">{error}</p>}
 
       {properties.length === 0 ? (
-        <div className="text-center py-16 bg-white dark:bg-purple-900/20 rounded-2xl border border-purple-100 dark:border-purple-800/40">
+        <div className="text-center py-16 str-glass-card">
           <Home className="h-12 w-12 text-purple-400 mx-auto mb-3" />
           <p className="text-gray-500 dark:text-purple-300">No properties yet. Add your first listing.</p>
         </div>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {properties.map(p => (
-            <div key={p.id} className="p-5 rounded-2xl bg-white dark:bg-gradient-to-br dark:from-[#231340] dark:to-[#1a0b2e] border border-purple-100 dark:border-purple-800/40">
+            <div key={p.id} className="str-glass-card p-5">
               <div className="flex justify-between items-start">
                 <div className="w-10 h-10 rounded-lg bg-purple-600 flex items-center justify-center">
                   <Home className="h-5 w-5 text-white" />
@@ -110,7 +110,7 @@ export const PropertiesPage: React.FC = () => {
 
       {modal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60" onClick={() => setModal(false)}>
-          <div className="bg-white dark:bg-[#231340] rounded-2xl p-6 w-full max-w-md" onClick={e => e.stopPropagation()}>
+          <div className="str-glass-card p-6 w-full max-w-md" onClick={e => e.stopPropagation()}>
             <div className="flex justify-between mb-4">
               <h3 className="font-semibold dark:text-white">New Property</h3>
               <button onClick={() => setModal(false)}><X className="h-5 w-5 dark:text-white" /></button>

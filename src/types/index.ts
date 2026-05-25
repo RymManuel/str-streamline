@@ -26,6 +26,8 @@ export interface Property {
 }
 
 export interface ReportSummary {
+  period: { start: string; end: string };
+  priorPeriod: { start: string; end: string };
   summary: {
     totalBookings: number;
     totalRevenue: number;
@@ -33,9 +35,39 @@ export interface ReportSummary {
     totalNights: number;
     avgOccupancy: number;
     netProfit: number;
+    profitMargin: number;
+    avgRevenuePerBooking: number;
+    avgRevenuePerNight: number;
   };
-  bySource: { source: string; bookings: number; revenue: number }[];
-  byProperty: { property: string; bookings: number; revenue: number }[];
+  comparison: {
+    revenueChange: number;
+    profitChange: number;
+    bookingsChange: number;
+    occupancyChange: number;
+    priorSummary: ReportSummary['summary'];
+  };
+  bySource: {
+    source: string;
+    bookings: number;
+    revenue: number;
+    expenses: number;
+    share: number;
+  }[];
+  byProperty: {
+    property: string;
+    bookings: number;
+    revenue: number;
+    expenses: number;
+    avgOccupancy: number;
+  }[];
+  monthly: {
+    month: string;
+    bookings: number;
+    revenue: number;
+    expenses: number;
+    profit: number;
+    avgOccupancy: number;
+  }[];
   target: { monthYear: string; revenueTarget: number; occupancyTarget: number } | null;
 }
 

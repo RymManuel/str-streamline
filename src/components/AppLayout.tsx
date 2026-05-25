@@ -3,6 +3,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { LoginPage } from '@/components/str/LoginPage';
 import { SetupAdminPage } from '@/components/str/SetupAdminPage';
 import { MainApp } from '@/components/str/MainApp';
+import { AuroraShell } from '@/components/str/AuroraShell';
 import { Loader2 } from 'lucide-react';
 
 const AppLayout: React.FC = () => {
@@ -10,12 +11,15 @@ const AppLayout: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#1a0b2e] via-[#2d1b4e] to-[#0f0620]">
-        <div className="text-center">
-          <Loader2 className="h-10 w-10 text-purple-400 animate-spin mx-auto mb-3" />
-          <p className="text-purple-200 text-sm">Loading STR-Streamline...</p>
+      <AuroraShell className="flex items-center justify-center">
+        <div className="text-center str-page-enter">
+          <div className="inline-flex items-center justify-center w-14 h-14 str-brand-icon str-sidebar-brand-glow mb-4">
+            <Loader2 className="h-7 w-7 animate-spin" />
+          </div>
+          <p className="text-lg font-semibold tracking-tight">STR-Streamline</p>
+          <p className="text-muted-foreground text-sm mt-2">Initializing analytics engine…</p>
         </div>
-      </div>
+      </AuroraShell>
     );
   }
 
